@@ -22,7 +22,7 @@ class HistoricalTab(ttk.Frame):
 
     def create_widgets(self):
         # Updated header label
-        header_label = tk.Label(self, text="Monthly Average Temperatures from CSV", font=("Arial", 20, "bold"), bg="#f3e7a3")
+        header_label = tk.Label(self, text="Monthly Average Temperatures", font=("Arial", 20, "bold"), bg="#f3e7a3")
         header_label.pack(fill=tk.X, pady=10)
 
         # Frame for State and City dropdowns (similar to ForecastTab)
