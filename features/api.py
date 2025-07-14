@@ -3,9 +3,7 @@ import requests
 from tkinter import messagebox
 import os # Needed to get API key from environment (loaded in main.py)
 
-# OpenWeatherMap API Key is loaded in main.py and available via os.getenv
-# The constant OPENWEATHER_API_KEY from config is not directly used here
-# as it's meant for global scope, but os.getenv is runtime safe.
+
 
 def fetch_owm_forecast(lat, lon):
     """
