@@ -25,7 +25,7 @@ class HistoricalTab(ttk.Frame):
         header_label = tk.Label(self, text="Monthly Average Temperatures", font=("Arial", 20, "bold"), bg="#f3e7a3")
         header_label.pack(fill=tk.X, pady=10)
 
-        # Frame for State and City dropdowns (similar to ForecastTab)
+        # Frame for State and City dropdowns - modelled after the forecast tab
         dropdown_frame = tk.Frame(self)
         dropdown_frame.pack(pady=5)
 
@@ -35,7 +35,7 @@ class HistoricalTab(ttk.Frame):
             font=("Arial", 14, "bold")
         ).pack(side=tk.LEFT, padx=5)
         
-        # FIX: Initialize self.state_var and self.city_var at the very top of create_widgets
+        #Initialize self.state_var and self.city_var at the very top of create_widgets
         self.state_var = tk.StringVar(self)
         self.city_var = tk.StringVar(self)
 
@@ -59,7 +59,7 @@ class HistoricalTab(ttk.Frame):
         
         self.city_dropdown = ttk.Combobox(
             dropdown_frame,
-            textvariable=self.city_var, # Correctly linked to self.city_var
+            textvariable=self.city_var,
             values=[], # Initial empty values, will be populated by update_cities_dropdown
             state="readonly",
             font=("Arial", 14)
@@ -94,13 +94,13 @@ class HistoricalTab(ttk.Frame):
         cities_in_state = sorted(list(STATE_CITY_DATA.get(selected_state, {}).keys()))
         self.city_dropdown['values'] = cities_in_state
         if cities_in_state:
-            self.city_var.set(cities_in_state[0]) # Correctly using self.city_var.set()
+            self.city_var.set(cities_in_state[0]) 
         else:
-            self.city_var.set("") # Correctly using self.city_var.set()
+            self.city_var.set("") 
 
     def get_monthly_average_chart(self):
         selected_state_name = self.state_var.get()
-        selected_city_name = self.city_var.get() # Correctly accessing self.city_var here
+        selected_city_name = self.city_var.get() 
 
         for widget in self.graph_frame.winfo_children():
             widget.destroy()
@@ -249,7 +249,7 @@ class HistoricalTab(ttk.Frame):
         bars = ax.bar(months, avg_temps, color='#ADD8E6')
         ax.set_ylabel("Average Temperature (°F)")
         
-        # Adjusted title to reflect full historical range from CSV
+        # Adjust title to add historical range from data
         title_start_date = min_date_loaded.strftime("%Y-%m-%d") if monthly_averages else "N/A"
         title_end_date = max_date_loaded.strftime("%Y-%m-%d") if monthly_averages else "N/A"
         ax.set_title(f"Monthly Average Temperatures for {selected_city_name}\n(Data from {title_start_date} to {title_end_date})", pad=20)
@@ -267,6 +267,6 @@ class HistoricalTab(ttk.Frame):
         canvas.draw()
         canvas.get_tk_widget().pack(fill="both", expand=True)
         plt.close(fig)
-        self.status_label.config(text="Chart generated from CSV.")
+        self.status_label.config(text=f"Historical data for {selected_city_name}")
 
         self.get_chart_btn.config(state=tk.NORMAL)
