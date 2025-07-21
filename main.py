@@ -15,7 +15,7 @@ load_dotenv(os.path.join(project_root, ".env")) # Specify path to .env file
 
 # Import the main application class
 from features.main_app import WeatherDashboardApp
-from features.forecast_tab import ForecastTab
+#from features.forecast_tab import ForecastTab
 
 if __name__ == "__main__":
     root = tk.Tk()

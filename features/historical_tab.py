@@ -15,14 +15,22 @@ from features.csv_files import HISTORY_DIR, create_historical_data_csv
 
 
 class HistoricalTab(ttk.Frame):
-    def __init__(self, notebook, parent_root):
-        super().__init__(notebook)
-        self.parent_root = parent_root
+    # def __init__(self, notebook, parent_root):
+    #     super().__init__(notebook)
+    #     self.parent_root = parent_root
+
+    def __init__(self, parent_notebook): # <--- **THIS IS THE CRITICAL CHANGE:** Only one argument expected!
+        super().__init__(parent_notebook) # <--- Pass the single parent_notebook here
+        self.parent_notebook = parent_notebook
+
+
+
+
         self.create_widgets()
 
     def create_widgets(self):
         # Updated header label
-        header_label = tk.Label(self, text="Monthly Average Temperatures", font=("Arial", 20, "bold"), bg="#f3e7a3")
+        header_label = tk.Label(self, text="Monthly Average Temperatures", font=("Arial", 20, "bold"), bg="#8baaed")
         header_label.pack(fill=tk.X, pady=10)
 
         # Frame for State and City dropdowns - modelled after the forecast tab
@@ -106,7 +114,7 @@ class HistoricalTab(ttk.Frame):
             widget.destroy()
         self.status_label.config(text="Processing...")
         self.get_chart_btn.config(state=tk.DISABLED)
-        self.parent_root.update_idletasks()
+        self.winfo_toplevel().update_idletasks()
 
         if not selected_city_name:
             messagebox.showwarning("Selection Error", "Please select a city.")
@@ -135,7 +143,7 @@ class HistoricalTab(ttk.Frame):
         if not os.path.exists(csv_filepath) or os.path.getsize(csv_filepath) == 0:
             messagebox.showinfo("Data Not Found", f"Historical data file not found or is empty for {selected_city_name} ({selected_state_name}).\nAttempting to fetch full historical data now...")
             self.status_label.config(text=f"Fetching ALL historical data for {selected_city_name}...")
-            self.parent_root.update_idletasks()
+            self.winfo_toplevel().update_idletasks()
 
             # Define specific historical range for import: July 1, 2024 to yesterday
             import_start_date = datetime(2024, 7, 1).date()

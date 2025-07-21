@@ -14,14 +14,19 @@ from features.csv_files import create_historical_data_csv
 
 
 class ForecastTab(ttk.Frame):
-    def __init__(self, notebook, parent_root):
-        super().__init__(notebook)
-        self.parent_root = parent_root
+    # def __init__(self, notebook, parent_root):
+    #     super().__init__(notebook)
+    #     self.parent_root = parent_root
+
+    def __init__(self, parent_notebook): # <--- **THIS IS THE CRITICAL CHANGE:** Only one argument expected!
+        super().__init__(parent_notebook) # <--- Pass the single parent_notebook here
+        self.parent_notebook = parent_notebook
+
         self.create_widgets()
 
     def create_widgets(self):
         # Header label for 7-Day Forecast
-        header_label = tk.Label(self, text="7-Day Weather Forecast For Selected Cities", font=("Arial", 20, "bold"), bg="#c8c8f3")
+        header_label = tk.Label(self, text="7-Day Weather Forecast For Selected Cities", font=("Arial", 20, "bold"), bg="#8baaed")
         header_label.pack(fill=tk.X, pady=10)
 
         dropdown_frame = tk.Frame(self)
@@ -68,7 +73,7 @@ class ForecastTab(ttk.Frame):
             padding=6,
             relief="raised",
             foreground="#000000",
-            background="#ADD8E6",
+            background="#8baaed",
             font=('Arial', 12, 'bold')
         )
         # Button text for 7-Day Forecast
@@ -155,7 +160,7 @@ class ForecastTab(ttk.Frame):
             ]
 
             fig, ax = plt.subplots(figsize=(8, 4))
-            fig.patch.set_facecolor("#c8c8f3")
+            fig.patch.set_facecolor("#8baaed")
             ax.set_facecolor("#f3e7a3")
             for spine in ax.spines.values():
                 spine.set_visible(False)
@@ -219,3 +224,5 @@ class ForecastTab(ttk.Frame):
         else:
             messagebox.showwarning("Historical Data Save Failed",
                                    f"Could not fetch historical data for {selected_city_name} to save to CSV.")
+            
+
