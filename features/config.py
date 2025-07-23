@@ -10,6 +10,7 @@ STATE_CITY_DATA = {
         "Yonkers": {"lat": 40.9312, "lon": -73.8260, "timezone": "America/New_York"},
         "Rochester": {"lat": 43.1566, "lon": -77.6088, "timezone": "America/New_York"},
         "Queens": {"lat": 40.7282, "lon": -73.7949, "timezone": "America/New_York"},
+        "Bronx": {"lat": 40.8448, "lon": -73.8648, "timezone": "America/New_York"},
     },
     "California": {
         "Los Angeles": {"lat": 34.0522, "lon": -118.2437, "timezone": "America/Los_Angeles"},

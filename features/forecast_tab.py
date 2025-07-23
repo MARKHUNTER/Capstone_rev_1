@@ -4,8 +4,8 @@ from tkinter import ttk, messagebox
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import matplotlib.font_manager as fm
 import os
+import matplotlib.font_manager as fm
 
 # Import from local features package
 from features.config import STATE_CITY_DATA, OWM_WEATHER_EMOJIS, emoji_font
@@ -14,14 +14,9 @@ from features.csv_files import create_historical_data_csv
 
 
 class ForecastTab(ttk.Frame):
-    # def __init__(self, notebook, parent_root):
-    #     super().__init__(notebook)
-    #     self.parent_root = parent_root
-
-    def __init__(self, parent_notebook): # <--- **THIS IS THE CRITICAL CHANGE:** Only one argument expected!
-        super().__init__(parent_notebook) # <--- Pass the single parent_notebook here
+    def __init__(self, parent_notebook):
+        super().__init__(parent_notebook)
         self.parent_notebook = parent_notebook
-
         self.create_widgets()
 
     def create_widgets(self):
@@ -49,7 +44,6 @@ class ForecastTab(ttk.Frame):
         self.state_dropdown.pack(side=tk.LEFT, padx=5)
         if self.states:
             self.state_var.set(self.states[0])
-
 
         tk.Label(
             dropdown_frame,
@@ -123,9 +117,19 @@ class ForecastTab(ttk.Frame):
             curr_temp = current["main"]["temp"]
             curr_precip = current.get("pop", 0) * 100
             curr_wind = current["wind"]["speed"]
+            curr_desc = current["weather"][0]["description"].capitalize()  # Get weather description
 
             summary_frame = tk.Frame(self.graph_frame)
             summary_frame.pack(pady=10)
+
+            # --- Weather Icon and Description ---
+            weather_emoji, weather_color = OWM_WEATHER_EMOJIS.get(curr_desc.lower(), ('❓', '#CCCCCC'))
+            weather_text = f"{weather_emoji} {curr_desc}"  # Combine icon and description
+
+            # Weather Emoji Label
+            emoji_box = tk.Label(summary_frame, text=weather_text, font=("Arial", 14, "bold"),
+                                 bg="#B0C4DE", width=16, height=3, relief="groove", bd=2)
+            emoji_box.pack(side=tk.LEFT, padx=10)
 
             temp_box = tk.Label(summary_frame, text=f"Current Temp\n{curr_temp:.1f}°F", font=("Arial", 14, "bold"),
                                  bg="#FFD700", width=16, height=3, relief="groove", bd=2)
@@ -135,6 +139,7 @@ class ForecastTab(ttk.Frame):
                                   bg="#87CEEB", width=16, height=3, relief="groove", bd=2)
             precip_box.pack(side=tk.LEFT, padx=10)
 
+            # Create a frame to hold the wind speed and weather emoji
             wind_box = tk.Label(summary_frame, text=f"Wind Speed\n{curr_wind:.1f} mph", font=("Arial", 14, "bold"),
                                  bg="#B0C4DE", width=16, height=3, relief="groove", bd=2)
             wind_box.pack(side=tk.LEFT, padx=10)
@@ -158,6 +163,12 @@ class ForecastTab(ttk.Frame):
                 OWM_WEATHER_EMOJIS.get(desc.lower(), ('❓', '#CCCCCC'))[1]
                 for desc in descs
             ]
+
+            # Try to use Segoe UI Emoji, otherwise fallback to a generic sans-serif
+            try:
+                plt.rcParams['font.family'] = ['Segoe UI Emoji', 'sans-serif']
+            except:
+                plt.rcParams['font.family'] = ['sans-serif']
 
             fig, ax = plt.subplots(figsize=(8, 4))
             fig.patch.set_facecolor("#8baaed")
@@ -185,7 +196,6 @@ class ForecastTab(ttk.Frame):
                     xytext=(0, 0), textcoords="offset points",
                     ha='center', va='bottom', fontsize=30,
                     color=color,
-                    fontproperties=fm.FontProperties(fname=emoji_font) if emoji_font else None
                 )
 
             plt.tight_layout()
@@ -195,7 +205,6 @@ class ForecastTab(ttk.Frame):
             plt.close(fig)
         else:
             tk.Label(self.graph_frame, text=f"Failed to fetch 7-day forecast for {selected_city_name}.", fg="red").pack()
-
 
         # --- Automatically Get Historical Data (Open-Meteo) ---
         # Get historical data from July 1, 2024, to the present date
@@ -224,5 +233,5 @@ class ForecastTab(ttk.Frame):
         else:
             messagebox.showwarning("Historical Data Save Failed",
                                    f"Could not fetch historical data for {selected_city_name} to save to CSV.")
-            
+
 
