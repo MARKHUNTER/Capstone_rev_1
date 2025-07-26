@@ -1,4 +1,3 @@
-
 import tkinter as tk
 import tkinter.ttk as ttk
 from features.forecast_tab import ForecastTab

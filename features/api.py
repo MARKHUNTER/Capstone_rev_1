@@ -5,7 +5,7 @@ import os # Needed to get API key from environment (loaded in main.py)
 
 
 
-def fetch_owm_forecast(lat, lon):
+def fetch_owm_forecast(city_info):
     """
     Fetches 7-day weather forecast data from OpenWeatherMap API using lat/lon.
     """
@@ -14,7 +14,27 @@ def fetch_owm_forecast(lat, lon):
         messagebox.showerror("API Key Error", "OpenWeather API key not found. Check your .env file.")
         return None
 
-    url = f"http://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={api_key}&units=imperial"
+    lat=city_info["lat"]
+    lon=city_info["lon"]
+    city=city_info["name"]
+
+        # params = {
+        #     "lat": lat,
+        #     "lon": lon,
+        #     "cnt": 14,  # Request 14 days of forecast
+        #     "appid": api_key,
+        #     "units": "imperial"  # Using imperial units
+        # }
+
+        # try:
+        #     response = requests.get(OPENWEATHER_API_URL, params=params)
+
+
+
+
+
+    url = f"http://api.openweathermap.org/data/2.5/forecast/?lat={lat}&lon={lon}&appid={api_key}&units=imperial"
+    #url= f"http://api.openweathermap.org/data/2.5/forecast?q={city}&appid={api_key}&units=imperial"
     try:
         response = requests.get(url)
         response.raise_for_status()

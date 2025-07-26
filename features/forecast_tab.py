@@ -1,6 +1,7 @@
 # features/forecast_tab.py
 import tkinter as tk
-from tkinter import ttk, messagebox
+import tkinter.ttk as ttk
+from tkinter import messagebox
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -87,9 +88,9 @@ class ForecastTab(ttk.Frame):
             self.city_var.set('')
 
     def get_weekly_forecast(self):
-        selected_city_name = self.city_var.get()
         selected_state_name = self.state_var.get()
-
+        selected_city_name = self.city_var.get()
+        
         for widget in self.graph_frame.winfo_children():
             widget.destroy()
 
@@ -107,17 +108,17 @@ class ForecastTab(ttk.Frame):
         timezone = city_info["timezone"]
 
         # --- Fetch 7-Day Forecast (OpenWeatherMap) ---
-        forecast_data = fetch_owm_forecast(lat, lon)
+        forecast_data = fetch_owm_forecast(city_info)
 
         if forecast_data:
             forecasts = forecast_data["list"]
 
             # --- Add current weather summary boxes ---
             current = forecasts[0]
-            curr_temp = current["main"]["temp"]
+            curr_temp = current["main"]["temp"] if "main" in current and "temp" in current["main"] else "N/A"
             curr_precip = current.get("pop", 0) * 100
-            curr_wind = current["wind"]["speed"]
-            curr_desc = current["weather"][0]["description"].capitalize()  # Get weather description
+            curr_wind = current["wind"]["speed"] if "wind" in current else "N/A"
+            curr_desc = current["weather"][0]["description"].capitalize() if "weather" in current and len(current["weather"]) > 0 else "N/A"  # Get weather description
 
             summary_frame = tk.Frame(self.graph_frame)
             summary_frame.pack(pady=10)
@@ -153,7 +154,7 @@ class ForecastTab(ttk.Frame):
                         "temp": entry["main"]["temp"],
                         "desc": entry["weather"][0]["description"]
                     }
-                    if len(days) == 7:
+                    if len(days) == 14:
                         break
             dates = list(days.keys())
             temps = [info["temp"] for info in days.values()]
