@@ -8,13 +8,13 @@ class WeatherDashboardApp:
     def __init__(self, master):
         self.master = master
         master.title("Weather Dashboard & Historical Data")
-        master.geometry("1000x800")
+        master.geometry("1200x800")
 
         style = ttk.Style()
         style.theme_use("clam")
         
         # --- Configure Notebook Tabs Styling ---
-        # Set larger font for notebook tabs
+        # This section formats the tabs size and color and state (mouse over, selected, unselected, etc)
         style.configure("TNotebook.Tab", font=("Arial", 14, "bold"), padding=(10, 5))
 
         # Default (unselected) tab background and foreground (text) color
@@ -40,8 +40,8 @@ class WeatherDashboardApp:
         self.forecast_tab = ForecastTab(self.notebook)
         self.historical_tab = HistoricalTab(self.notebook)
 
-        self.notebook.add(self.forecast_tab, text=" 7-Day Forecast ")
-        self.notebook.add(self.historical_tab, text=" Monthly Averages ")
+        self.notebook.add(self.forecast_tab, text=" Weather Forecast ")
+        self.notebook.add(self.historical_tab, text=" Historical Data ")
 
 if __name__ == "__main__":
     root = tk.Tk()
