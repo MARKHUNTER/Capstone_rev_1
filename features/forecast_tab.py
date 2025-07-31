@@ -70,7 +70,7 @@ class ForecastTab(ttk.Frame):
             font=("Arial", 14, "bold")
         ).pack(side=tk.LEFT, padx=5)
         self.num_days_var = tk.StringVar()
-        self.num_days_values = ["3","5","7","9","10","11","12","13","14", "15", "16"]  # Options for number of days
+        self.num_days_values = ["3","5","7","9","10","11","12","13","14"]  # Options for number of days
         self.num_days_dropdown = ttk.Combobox(
             dropdown_frame,
             textvariable=self.num_days_var,
@@ -215,7 +215,7 @@ class ForecastTab(ttk.Frame):
 
             fig, ax = plt.subplots(figsize=(10, 5))
             fig.patch.set_facecolor("#8baaed")
-            ax.set_facecolor("#f3e7a3")
+            ax.set_facecolor("#0154fb")
             for spine in ax.spines.values():
                 spine.set_visible(False)
             if chart_type == "bar":

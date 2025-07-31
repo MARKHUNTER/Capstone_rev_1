@@ -116,9 +116,9 @@ def create_historical_data_csv(state_name, city_name, daily_weather_data, start_
             
             if new_rows:
                 writer.writerows(new_rows)
-                messagebox.showinfo("Success", f"Daily historical data for {city_name} ({state_name}) from {start_date_str} to {end_date_str} saved/appended to:\n{output_filepath}\nAdded {len(new_rows)} new entries.")
+                print("Success", f"Daily historical data for {city_name} ({state_name}) from {start_date_str} to {end_date_str} saved/appended to:\n{output_filepath}\nAdded {len(new_rows)} new entries.")
             else:
-                messagebox.showinfo("Info", f"No new daily historical data to add for {city_name} ({state_name}) from {start_date_str} to {end_date_str}). File is up-to-date for this period.")
+                print("Info", f"No new daily historical data to add for {city_name} ({state_name}) from {start_date_str} to {end_date_str}). File is up-to-date for this period.")
 
         # Clean the data immediately after creating the CSV file
         clean_data(output_filepath)

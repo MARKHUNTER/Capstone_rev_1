@@ -23,7 +23,7 @@ class HistoricalTab(ttk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        header_label = tk.Label(self, text="Historical Average Temperatures", font=("Arial", 20, "bold"), bg="#8baaed")
+        header_label = tk.Label(self, text="Historical Temperatures", font=("Arial", 20, "bold"), bg="#8baaed")
         header_label.pack(fill=tk.X, pady=10)
 
         dropdown_frame = tk.Frame(self)
@@ -44,7 +44,7 @@ class HistoricalTab(ttk.Frame):
             textvariable=self.state_var,
             values=self.states,
             state="readonly",
-            font=("Arial", 14)
+            font=("Arial", 14),width=8
         )
         self.state_dropdown.pack(side=tk.LEFT, padx=5)
         if self.states:
@@ -61,7 +61,7 @@ class HistoricalTab(ttk.Frame):
             textvariable=self.city_var,
             values=[],
             state="readonly",
-            font=("Arial", 14)
+            font=("Arial", 14),width=8
         )
         self.city_dropdown.pack(side=tk.LEFT, padx=5)
 
@@ -76,7 +76,7 @@ class HistoricalTab(ttk.Frame):
             background="#ADD8E6",
             font=('Arial', 12, 'bold')
         )
-        self.get_chart_btn = ttk.Button(dropdown_frame, text="Get Averages Chart", style='Rounded.TButton', width=20, command=self.get_average_chart)
+        self.get_chart_btn = ttk.Button(dropdown_frame, text="Update Chart", style='Rounded.TButton', width=20, command=self.get_average_chart)
         self.get_chart_btn.pack(side=tk.LEFT, padx=10)
 
         self.chart_type = tk.StringVar(value="monthly")
