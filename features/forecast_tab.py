@@ -256,7 +256,7 @@ class ForecastTab(ttk.Frame):
                     )
             elif chart_type == "line":
                 ax.plot(dates, temps_max, marker='o', linestyle='-', color='red', label='Max Temp')
-                ax.plot(dates, temps_min, marker='o', linestyle='-', color='blue', label='Min Temp')
+                ax.plot(dates, temps_min, marker='o', linestyle='-', color='yellow', label='Min Temp')
                 ax.set_ylabel("Temperature (°F)")
                 ax.set_title(f"{num_forecast_days}-Day Temperature Trend for {selected_city_name}", pad=20, fontsize=16, fontweight='bold')
                 ax.set_xticks(range(len(dates)))

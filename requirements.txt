@@ -65,3 +65,5 @@ traitlets==5.14.3
 tzdata==2025.2
 urllib3==2.4.0
 wcwidth==0.2.13
+
+"Created with the use of co-pilot"

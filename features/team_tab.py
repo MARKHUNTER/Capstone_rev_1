@@ -227,7 +227,15 @@ class TeamTab(ttk.Frame):
         for city in cities:
             city_data = data[(data['city'] == city) & (data['date'].isin(visible_dates))]
             ax.plot(city_data['date'], city_data[self.selected_variable.get()], marker='o', label=city)
-        ax.set_title(f"Daily {self.selected_variable.get()} for Selected Cities", pad=20)
+        # Dynamic title with date range
+        if visible_dates:
+            date_fmt = "%Y-%m-%d"
+            start_str = visible_dates[0].strftime(date_fmt)
+            end_str = visible_dates[-1].strftime(date_fmt)
+            title = f"Daily {self.selected_variable.get()} for Selected Cities\n{start_str} to {end_str}"
+        else:
+            title = f"Daily {self.selected_variable.get()} for Selected Cities"
+        ax.set_title(title, pad=20)
         ax.set_ylabel(self.selected_variable.get())
         ax.tick_params(axis='x', rotation=45)
         ax.legend(title="City")
@@ -235,30 +243,30 @@ class TeamTab(ttk.Frame):
 
     def _update_daily_chart_view(self, scroll_value):
         start_index = int(float(scroll_value))
-        
         # Check if chart widgets are available
         if 'ax' not in self.chart_widgets or 'canvas' not in self.chart_widgets:
             print("Chart widgets not properly initialized.")
             return
-        
         ax = self.chart_widgets['ax']
         canvas = self.chart_widgets['canvas']
         dates = self.chart_data['dates']
         temps = self.chart_data['temps']
         city_name = self.chart_data['city_name']
-        
         visible_points = 14
         end_index = start_index + visible_points
-        
         visible_dates = dates[start_index:end_index]
         visible_temps = temps[start_index:end_index]
-        
         ax.cla()
         ax.plot(visible_dates, visible_temps, color='#007acc', marker='o', markersize=5)
-        
-        ax.set_title(f"Daily {self.selected_variable.get()} for {city_name}", pad=20)
+        # Dynamic title with date range
+        if visible_dates:
+            date_fmt = "%Y-%m-%d"
+            start_str = visible_dates[0].strftime(date_fmt)
+            end_str = visible_dates[-1].strftime(date_fmt)
+            title = f"Daily {self.selected_variable.get()} for {city_name}\n{start_str} to {end_str}"
+        else:
+            title = f"Daily {self.selected_variable.get()} for {city_name}"
+        ax.set_title(title, pad=20)
         ax.set_ylabel(self.selected_variable.get())
-
         ax.tick_params(axis='x', rotation=45)
-        
         canvas.draw()
